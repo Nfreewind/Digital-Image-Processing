@@ -30,6 +30,8 @@ static void help()
     // print a help message, and the OpenCV version
     cout << "\nThis is a demo of scale a gray image,"
             "\nUsing OpenCV version " << CV_VERSION << endl;
+    cout << "\nCall:\n"
+            "    ./scale [image_name -- Default is ubuntu.png]\n\n";
 }
 
 //--------------------------------【scale( )函数】----------------------------------------------
@@ -79,12 +81,25 @@ void scale(Mat& inputImage, Mat& outputImage)
 		
 }
 
+const char* keys =
+{
+    "{help h||}{@image |ubuntu.png|input image name}"
+};
+
 int main(int argc, char** argv)
 {
     help();
-    
+    CommandLineParser parser(argc, argv, keys);    
+    string filename = parser.get<string>(0);
+
     Mat src;
-    src= imread("ubuntu.png",0);
+    src= imread(filename,0);
+    if(src.empty())
+    {
+        printf("Cannot read image file: %s\n", filename.c_str());
+        help();
+        return -1;
+    }
     Mat rst;
     
     //图像标度

@@ -14,7 +14,8 @@
                              ver1.1, 2018.03.07, William Yu, add notes
 =====================================================================================*/
 
-g++编译
+g++编译:
 g++  scale.cpp -o scale  `pkg-config  --cflags --libs opencv`
-Usage
-./scale
+Usage:
+./scale [输入参数图片名字]
+默认使用ubuntu.png
