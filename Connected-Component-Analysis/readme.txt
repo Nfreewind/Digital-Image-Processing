@@ -16,3 +16,6 @@
 
 g++编译
 g++  搜索连通域.cpp -o search  `pkg-config  --cflags --libs opencv`
+
+Usage:
+./search -help                     | 查看帮助信息

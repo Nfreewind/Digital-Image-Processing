@@ -34,7 +34,7 @@ static void help()
             "    ./scale [image_name -- Default is ubuntu.png]\n\n";
 }
 
-//--------------------------------【scale( )函数】----------------------------------------------
+//--------------------------------【 scale( )函数 】----------------------------------------------
 //		描述：遍历像素，寻找最大最小值，并均衡每一个像素值至0-255
 //-------------------------------------------------------------------------------------------------
 void scale(Mat& inputImage, Mat& outputImage)  
@@ -88,18 +88,14 @@ const char* keys =
 
 int main(int argc, char** argv)
 {
-    help();
-    CommandLineParser parser(argc, argv, keys);    
+    CommandLineParser parser(argc, argv, keys);  
+    if (parser.has("help"))  { help();  return 0; }
+       
     string filename = parser.get<string>(0);
 
     Mat src;
     src= imread(filename,0);
-    if(src.empty())
-    {
-        printf("Cannot read image file: %s\n", filename.c_str());
-        help();
-        return -1;
-    }
+    if(src.empty()) {printf("Cannot read image file: %s\n", filename.c_str()); return -1; }
     Mat rst;
     
     //图像标度
@@ -110,6 +106,10 @@ int main(int argc, char** argv)
     namedWindow("均衡化");
     imshow("灰度图",src);
     imshow("均衡化",rst);
+    
+    //验证结果，opencv归一化到0~255  
+    normalize(src, src, 0, 255, CV_MINMAX);
+    imshow("opencv归一化",rst);
     
     waitKey(0);
     return 0;
