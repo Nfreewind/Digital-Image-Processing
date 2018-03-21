@@ -23,13 +23,13 @@ using namespace cv;
   
 //8位图
 #define L 255
-float gam;
+float gam = 1;
 //图像反转
 float imgnega(float r,int c){ return L-1-r; }
 //对数变换
 float imglog(float r,int c){ return c*log(1+r); }
 //幂次变化
-float imggama(float r,int c){ float temp=pow(r,gam); return c*temp; }
+float imggama(float r,int c){ float temp= pow(r,gam); return c*temp; }
 
 //--------------------------------【 gray_transformation()函数 】----------------------------------------------
 //		图像灰度变换
