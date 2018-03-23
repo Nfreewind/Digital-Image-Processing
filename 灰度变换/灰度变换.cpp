@@ -31,9 +31,15 @@ float imglog(float r,int c){ return c*log(1+r); }
 //幂次变化
 float imggama(float r,int c){ float temp= pow(r,gam); return c*temp; }
 
+
+
 //--------------------------------【 gray_transformation()函数 】----------------------------------------------
-//		图像灰度变换
+//         图像灰度变换参数说明：
+//              void gray_transformation(Mat& inputImage, Mat& outputImage, int Eh_Type, int c)
+//				参数Eh_Type: 1:图像反转  2：对数变化   3：伽马变换
+//				参数c:常数
 //-------------------------------------------------------------------------------------------------
+
 void gray_transformation(Mat& inputImage, Mat& outputImage, int Eh_Type,int c)
 {
 	outputImage = inputImage.clone();
@@ -88,13 +94,9 @@ int main(int argc, char** argv)
     srcImage= imread(filename,0);
     if(srcImage.empty()) {printf("Cannot read image file: %s\n", filename.c_str()); return -1; }
     
-    //--------------------------------【 gray_transformation()函数 】----------------------------------------------
-    //         图像灰度变换参数说明：
-    //              void gray_transformation(Mat& inputImage, Mat& outputImage, int Eh_Type, int c)
-    //				参数Eh_Type: 1:图像反转  2：对数变化   3：伽马变换
-    //				参数c:常数
-    //-------------------------------------------------------------------------------------------------
-
+//--------------------------------【 gray_transformation()函数 】----------------------------------------------
+//		图像灰度变换
+//-------------------------------------------------------------------------------------------------
     do{ 
       cout << "s=c*r^gam，输入指数gam，注意范围gam>0：\n";
       cin >> gam;

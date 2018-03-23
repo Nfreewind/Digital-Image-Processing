@@ -38,7 +38,7 @@ void  binary(int num)
 
 static void help()
 {
-    cout << "\n这是一个演示数字图像处理灰度图图像标度处理的程序"
+    cout << "\n这是一个演示数字图像处理比特平面分层的程序"
             "\n使用OpenCV version " << CV_VERSION << endl;
     cout << "\n使用:\n"
             "\t./比特平面分层 [图片名称 -- 默认值为 ubuntu.png]\n\n";

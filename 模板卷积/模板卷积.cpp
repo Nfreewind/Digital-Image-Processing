@@ -22,7 +22,13 @@
 using namespace std;
 using namespace cv;
 
-
+//--------------------------------【 convolution()函数 】----------------------------------------------
+//         参数说明：
+//              void convolution(const Mat& myImage, Mat& myImage)
+//			参数 myImage: 传入原图
+//			参数 myImage: 传出待处理图像
+//			参数
+//-------------------------------------------------------------------------------------------------
 //只适用于3阶模板
 void convolution(const Mat& myImage, Mat& Result, Mat&kernel )
 {
@@ -39,10 +45,7 @@ void convolution(const Mat& myImage, Mat& Result, Mat&kernel )
 
         //利用公式和上下左右四个像素对当前像素值进行处理
         for(int i = nChannels; i < nChannels * (myImage.cols - 1); ++i)
-        {/*
-	              *output++ = saturate_cast<uchar>(5*current[i]  
-                         -current[i-nChannels] - current[i+nChannels] - previous[i] - next[i]);         // 计算新值  
-		    */
+        {
             *output++ = saturate_cast<uchar>
             (  kernel.at<int>(0,0)* previous[i-nChannels] +  kernel.at<int>(0,1)* previous[i] +  kernel.at<int>(0,2)* previous[i+nChannels] + 
 	       kernel.at<int>(1,0)* current[i-nChannels] +  kernel.at<int>(1,1)* current[i] +  kernel.at<int>(1,2)* current[i+nChannels] + 
@@ -55,22 +58,18 @@ void convolution(const Mat& myImage, Mat& Result, Mat&kernel )
     Result.col(Result.cols-1).setTo(Scalar(0));     //设置最后一列所有元素值为0
 }
 
-//--------------------------------【 gray_transformation()函数 】----------------------------------------------
-//		图像灰度变换
-//-------------------------------------------------------------------------------------------------
-
 
 static void help()
 {
-    cout << "\n这是一个演示数字图像处理灰度图图像灰度变换的程序"
+    cout << "\n这是一个演示数字图像处理模板卷积的程序"
             "\n使用OpenCV version " << CV_VERSION << endl;
     cout << "\n使用:\n"
-            "\t./灰度变换 [图片名称 -- 默认值为 ubuntu.png]\n\n";
+            "\t./模板卷积 [图片名称 -- 默认值为 ubuntu.png]\n\n";
 	
     cout << "\nThis is a demo of ,"
             "\nUsing OpenCV version " << CV_VERSION << endl;
     cout << "\nCall:\n"
-            "    ./灰度变换 [image_name -- Default is ubuntu.png]\n\n";
+            "    ./模板卷积 [image_name -- Default is ubuntu.png]\n\n";
 }
 
 const char* keys =
@@ -101,15 +100,11 @@ int main(int argc, char** argv)
                                      0, -1, 0);
      
     //--------------------------------【 convolution()函数 】----------------------------------------------
-    //         图像灰度变换参数说明：
-    //              void convolution(const Mat& myImage, Mat& myImage)
-    //				参数 myImage: 传入原图
-    //				参数 myImage: 传出待处理图像
-    //				参数
+    //		卷积计算
     //-------------------------------------------------------------------------------------------------
     convolution(srcImage, dstImageMyCon, kernel);  
     //保证安全,归一化到0~255  
-    normalize(dstImageMyCon, dstImageMyCon, 0, 255, CV_MINMAX);
+    //normalize(dstImageMyCon, dstImageMyCon, 0, 255, CV_MINMAX);
 
     //--------------------------------【 filter2D()函数 】----------------------------------------------
     //         opencv内置的卷积操作函数
