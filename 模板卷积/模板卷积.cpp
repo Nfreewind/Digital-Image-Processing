@@ -14,6 +14,12 @@
  * Company                 : HUST
  * Modification History	   : ver1.0, 2018.03.21, William Yu
                              ver1.1, 2018.03.21, William Yu, add notes
+                             ver1.2, 2018.03.30, William Yu, add Q
+				                Q1.函数内部没有做卷积核归一化,使用此函数之前一定记得归一化。
+						    saturate_cast是为了和opencv内置filter2D函数作效果对比，
+						    因为使用了saturate_cast做限定，所以如果采用在使用此函数之前不做归一化，而对输出图像做规定化的方案，是没有用的。
+				                Q2.卷积函数只能做3阶卷积（solved）
+                             ver1.3, 2018.03.31, William Yu, Q2 solved
 =====================================================================================*/
 
 #include <opencv2/opencv.hpp>
@@ -22,42 +28,48 @@
 using namespace std;
 using namespace cv;
 
-//--------------------------------【 convolution()函数 】----------------------------------------------
-//         参数说明：
-//              void convolution(const Mat& myImage, Mat& myImage)
-//			参数 myImage: 传入原图
-//			参数 myImage: 传出待处理图像
-//			参数
-//-------------------------------------------------------------------------------------------------
-//只适用于3阶模板
-void convolution(const Mat& myImage, Mat& Result, Mat&kernel )
+//--------------------------------【 myconvolution()函数 】----------------------------------------------
+//	void myconvolution(const Mat& myImage, Mat& Result, double ** kernel, int ksize);
+//		参数
+//			& myImage  :输入图像
+//			& Result   :输出图像
+//			& kernel   :卷积核
+//			ksize      :卷积核大小
+//------------------------------------------------------------------------------------------------- 
+void myconvolution(const Mat& myImage, Mat& Result, double ** kernel, int ksize)
 {
-    CV_Assert(myImage.depth() == CV_8U);        //判断函数CV_Assert
     const int nChannels = myImage.channels();
-
-    for(int j = 1; j < myImage.rows - 1; ++j)
+    int center =(int) ((ksize)/2);
+    
+    for(int j = center; j < myImage.rows - center; ++j)
     {
-        const uchar* previous = myImage.ptr<uchar>(j - 1);      //当前像素上一行指针
-        const uchar* current = myImage.ptr<uchar>(j);           //当前像素行指针
-        const uchar* next = myImage.ptr<uchar>(j + 1);          //当前像素下一行指针
-
-        uchar* output = Result.ptr<uchar>(j);
-
-        //利用公式和上下左右四个像素对当前像素值进行处理
-        for(int i = nChannels; i < nChannels * (myImage.cols - 1); ++i)
+	///创建行指针首地址序列
+	vector<const uchar*> col_ptrs;
+	for(int k= 0; k< ksize; ++k)
+	{
+	  const uchar* col_ptr = myImage.ptr<uchar>(j- center + k );  
+	  col_ptrs.push_back(col_ptr);
+	}
+	
+	uchar* output = Result.ptr<uchar>(j); //结果图片行首地址
+	output += nChannels * center; //将行首地址加偏移量
+	
+        for(int i = nChannels * center; i < nChannels*myImage.cols - nChannels * center; ++i)
         {
-            *output++ = saturate_cast<uchar>
-            (  kernel.at<int>(0,0)* previous[i-nChannels] +  kernel.at<int>(0,1)* previous[i] +  kernel.at<int>(0,2)* previous[i+nChannels] + 
-	       kernel.at<int>(1,0)* current[i-nChannels] +  kernel.at<int>(1,1)* current[i] +  kernel.at<int>(1,2)* current[i+nChannels] + 
-	       kernel.at<int>(2,0)* next[i-nChannels] +  kernel.at<int>(2,1)* next[i] +  kernel.at<int>(2,2)* next[i+nChannels]  );
-        }
+	  ///卷积操作
+	  int temp = 0;
+	  for(int aaa=0; aaa<ksize; ++aaa) 
+	  {
+	     for(int bbb=0; bbb<ksize; ++bbb)
+	     {
+		temp += kernel[aaa][bbb] * col_ptrs[aaa][i - nChannels*center + nChannels*bbb];
+	     }
+	  }
+	  ///saturate_cast函数 ： a>255则a=255,a<0，则a=0
+	  *output++ = saturate_cast<uchar>(temp); 
+	}
     }
-    Result.row(0).setTo(Scalar(0));                 //设置第一行所有元素值为0
-    Result.row(Result.rows-1).setTo(Scalar(0));     //设置最后一行所有元素值为0
-    Result.col(0).setTo(Scalar(0));                 //设置第一列所有元素值为0
-    Result.col(Result.cols-1).setTo(Scalar(0));     //设置最后一列所有元素值为0
 }
-
 
 static void help()
 {
@@ -95,23 +107,35 @@ int main(int argc, char** argv)
     Mat dstImageOpencv;
     dstImageOpencv.create(srcImage.size(), srcImage.type());
     
-    Mat kernel = (Mat_<int>(3,3) << 0, -1 ,0,
-                                    -1, 5, -1,
-                                     0, -1, 0);
-     
-    //--------------------------------【 convolution()函数 】----------------------------------------------
+  
+    int ksize = 5;
+    //<<输入到矩阵Mat_<double> 中，然后隐式转换成Mat类型, 提供给filter2D函数使用
+    Mat matkernel = (Mat_<double>(ksize,ksize) << 
+		 0, -1, -2, -1,  0,
+		-1, -2, -3, -2, -1,
+		-2, -3, 37, -3  -2,
+		-1, -2, -3, -2, -1,
+		 0, -1, -2, -1,  0);
+    ///建立一个size*size大小的动态二维数组 
+    double** kernel = new double*[ksize];
+    for (int i = 0; i < ksize; ++i)  
+        kernel[i] = new double[ksize];
+    //赋值，提供给myconvolution函数使用
+    for (int i=0;i<ksize;i++)
+      for(int j=0;j<ksize;j++)
+	kernel[i][j] = matkernel.at<double>(i,j);
+
+    //--------------------------------【 myconvolution()函数 】----------------------------------------------
     //		卷积计算
     //-------------------------------------------------------------------------------------------------
-    convolution(srcImage, dstImageMyCon, kernel);  
-    //保证安全,归一化到0~255  
+    myconvolution(srcImage, dstImageMyCon, kernel, ksize);  
+    //保证安全,归定化到0~255  
     //normalize(dstImageMyCon, dstImageMyCon, 0, 255, CV_MINMAX);
 
     //--------------------------------【 filter2D()函数 】----------------------------------------------
-    //         opencv内置的卷积操作函数
+    //         opencv提供的卷积操作函数
     //-------------------------------------------------------------------------------------------------
-    filter2D(srcImage, dstImageOpencv, srcImage.depth(), kernel);
-    
-    
+    filter2D(srcImage, dstImageOpencv, srcImage.depth(), matkernel); 
     
     namedWindow("srcImage", WINDOW_AUTOSIZE);
     imshow("srcImage", srcImage);

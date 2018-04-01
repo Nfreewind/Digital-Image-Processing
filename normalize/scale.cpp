@@ -107,9 +107,9 @@ int main(int argc, char** argv)
     imshow("灰度图",src);
     imshow("均衡化",rst);
     
-    //验证结果，opencv归一化到0~255  
+    //为了验证结果，使用opencv提供的函数归定化到0~255  
     normalize(src, src, 0, 255, CV_MINMAX);
-    imshow("opencv归一化",rst);
+    imshow("opencv归定化",rst);
     
     waitKey(0);
     return 0;

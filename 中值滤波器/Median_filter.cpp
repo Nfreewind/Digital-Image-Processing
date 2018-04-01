@@ -22,12 +22,12 @@ using namespace std;
 using namespace cv;
 
 //--------------------------------【 adaptiveProcess()函数 】----------------------------------------------
-//        参数说明：
-//            void adaptiveProcess(const Mat& src, Mat& dst, int kernelSize, int maxSize)
-//			参数 & src: 
-//			参数 & dst: 
-//			参数 kernelSize:
-//			参数 maxSize:
+//      void adaptiveProcess(const Mat& src, Mat& dst, int kernelSize, int maxSize)
+//		参数 
+//			& src       : 
+//			& dst       : 
+//			kernelSize  :
+//			maxSize     :
 //-------------------------------------------------------------------------------------------------
 
 uchar one_adaptiveProcess(const Mat& src, int row, int col, int kernelSize, int maxSize)
@@ -212,7 +212,7 @@ int main(int argc, char** argv)
     int minSize = 3; // 滤波器窗口的起始边长
     int maxSize = 17; // 滤波器窗口的最大边长
     // 扩展图像的边界,这里解决了一个比较难受的模板卷积四边像素的处理问题,采用边界扩展,然后卷积,卷积的结果切除四周黑边即可
-    //see:https://docs.opencv.org/3.3.1/d2/de8/group__core__array.html#ga2ac1049c2c3dd25c2b41bffe17658a36
+    //see: https://docs.opencv.org/3.3.1/d2/de8/group__core__array.html#ga2ac1049c2c3dd25c2b41bffe17658a36
     Mat dst_MakeBorder;
     copyMakeBorder(srcImage, dst_MakeBorder, maxSize / 2, maxSize / 2, maxSize / 2, maxSize / 2, BORDER_REFLECT);
     

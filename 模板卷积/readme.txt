@@ -14,7 +14,14 @@
  * Company                 : HUST
  * Modification History	   : ver1.0, 2018.03.21, William Yu
                              ver1.1, 2018.03.21, William Yu, add notes
+                             ver1.2, 2018.03.30, William Yu, add Q
+				                Q1.函数内部没有做卷积核归一化,使用此函数之前一定记得归一化。
+						    saturate_cast是为了和opencv内置filter2D函数作效果对比，
+						    因为使用了saturate_cast做限定，所以如果采用在使用此函数之前不做归一化，而对输出图像做规定化的方案，是没有用的。
+				                Q2.卷积函数只能做3阶卷积（solved）
+                             ver1.3, 2018.03.31, William Yu, Q2 solved
 =====================================================================================*/
+
 
 g++编译:
 g++  模板卷积.cpp -o 模板卷积  `pkg-config  --cflags --libs opencv`

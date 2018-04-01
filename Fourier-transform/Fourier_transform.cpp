@@ -61,7 +61,7 @@ int main(int argc, const char ** argv)
     //-------------------------------------------------------------------------------------------------
     
     ///[1]调整图片大小
-    //getOptimalDFTSize 返回最理想的傅里叶变换大小
+    //getOptimalDFTSize 返回最理想的适合于傅里叶变换的图像大小
     //see: https://docs.opencv.org/3.3.1/d2/de8/group__core__array.html#ga6577a2e59968936ae02eb2edde5de299
     int M = getOptimalDFTSize( srcImage.rows );
     int N = getOptimalDFTSize( srcImage.cols );

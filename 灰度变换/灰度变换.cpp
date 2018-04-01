@@ -60,7 +60,7 @@ void gray_transformation(Mat& inputImage, Mat& outputImage, int Eh_Type,int c)
 			outputImage.at<uchar>(i, j) = func_list[Eh_Type-1](num, c); 
 			//此处func_list[Eh_Type-1](num,c); 也可以写成(*func_list[Eh_Type-1])(num,c)
 			// ----------【处理结束】---------------------
-			}
+		}
 	}
 }
 

@@ -10,11 +10,11 @@
  * Reference               : https://docs.opencv.org/3.3.1/d4/d86/group__imgproc__filter.html#gaabe8c836e97159a9193fb0b11ac52cf1
  *				https://docs.opencv.org/3.3.1/d4/d86/group__imgproc__filter.html#gac05a120c1ae92a6060dd0db190a61afa
  * 				https://docs.opencv.org/3.3.1/de/db2/laplace_8cpp-example.html#a17
- *				http://blog.csdn.net/weixin_37720172/article/details/72843238,,,该文档代码怀疑有错误,已与作者联系
+ *				http://blog.csdn.net/weixin_37720172/article/details/72843238该文档代码有错误,已与作者联系
  * Programmer(s)           : William Yu, windmillyucong@163.com
  * Company                 : HUST
  * Modification History	   : ver1.0, 2018.03.22, William Yu
-                             ver1.1, 2018.03.22, William Yu, add notes
+                             ver1.1, 2018.03.31, William Yu, add notes
 =====================================================================================*/
 
 #include <opencv2/opencv.hpp>
@@ -23,33 +23,92 @@
 using namespace std;
 using namespace cv;
 
+//--------------------------------【 myconvolution()函数 】----------------------------------------------
+//	void myconvolution(const Mat& myImage, Mat& Result, double ** kernel, int ksize);
+//		参数
+//			& myImage  :输入图像
+//			& Result   :输出图像
+//			& kernel   :卷积核
+//			ksize      :卷积核大小
+//------------------------------------------------------------------------------------------------- 
+void myconvolution(const Mat& myImage, Mat& Result, double ** kernel, int ksize)
+{
+    const int nChannels = myImage.channels();
+    int center =(int) ((ksize)/2);
+    
+    for(int j = center; j < myImage.rows - center; ++j)
+    {
+	///创建行指针首地址序列
+	vector<const uchar*> col_ptrs;
+	for(int k= 0; k< ksize; ++k)
+	{
+	  const uchar* col_ptr = myImage.ptr<uchar>(j- center + k );  
+	  col_ptrs.push_back(col_ptr);
+	}
+	
+	uchar* output = Result.ptr<uchar>(j); //结果图片行首地址
+	output += nChannels * center; //将行首地址加偏移量
+	
+        for(int i = nChannels * center; i < nChannels*myImage.cols - nChannels * center; ++i)
+        {
+	  ///卷积操作
+	  int temp = 0;
+	  for(int aaa=0; aaa<ksize; ++aaa) 
+	  {
+	     for(int bbb=0; bbb<ksize; ++bbb)
+	     {
+		temp += kernel[aaa][bbb] * col_ptrs[aaa][i - nChannels*center + nChannels*bbb];
+	     }
+	  }
+	  ///saturate_cast函数 ： a>255则a=255,a<0，则a=0
+	  *output++ = saturate_cast<uchar>(temp); 
+	}
+    }
+}
 
 //--------------------------------【 mygetGaussianKernel()函数 】----------------------------------------------
-//         参数说明：
-//            double ** mygetGaussianKernel( int ksize, double sigma)
-//			参数 ksize: 
-//			参数 sigma: 
-//-------------------------------------------------------------------------------------------------
+//	double ** mygetGaussianKernel(int ksize, double sigma);
+//		参数
+//			ksize      :模板大小
+//			sigma      :高斯标准差
+//------------------------------------------------------------------------------------------------- 
 double ** mygetGaussianKernel(int ksize, double sigma)
 {
-    int size= ksize;
     int i, j;  
     double sum = 0.0;  
-    int center = size; //以第一个点的坐标为原点，求出中心点的坐标  
-  
-    double **arr = new double*[size];//建立一个size*size大小的二维数组  
-    for (i = 0; i < size; ++i)  
-        arr[i] = new double[size];  
-      
-    for (i = 0; i < size; ++i)  
-        for (j = 0; j < size; ++j) 
+    int center = ksize/2;
+    
+    ///建立一个size*size大小的动态二维数组  
+    double **arr = new double*[ksize];
+    for (i = 0; i < ksize; ++i)  
+        arr[i] = new double[ksize];  
+    
+    ///高斯函数  
+    for (i = 0; i < ksize; ++i)  
+        for (j = 0; j < ksize; ++j) 
 	{  
             arr[i][j] = exp(-((i - center)*(i - center) + (j - center)*(j - center)) / (sigma*sigma * 2));  
             sum += arr[i][j];  
-        }  
-    for (i = 0; i < size; ++i)  
-        for (j = 0; j < size; ++j)  
-            arr[i][j] /= sum;  
+        }
+        
+    ///归一化
+    double chacksum=0;
+    for (i = 0; i < ksize; ++i)  
+        for (j = 0; j < ksize; ++j)  
+	{   
+	  arr[i][j] /= sum;
+	  chacksum += arr[i][j];
+	}
+    
+    ///输出
+    printf("%.10f ",chacksum);
+    for (i = 0; i < ksize; ++i)
+      for (j = 0; j < ksize; ++j)
+      {
+	if ( j%ksize ==0) { printf("\n");}
+	printf("%.10f ",arr[i][j]);
+      }
+    
     return arr;
 }
 
@@ -57,48 +116,29 @@ double ** mygetGaussianKernel(int ksize, double sigma)
 
 
 //--------------------------------【 myGaussianBlur()函数 】----------------------------------------------
-//        参数说明：
-//            void myGaussianBlur(Mat& srcImage, Mat& dst_myGaussianBlur, int ksize, int sigma)
-//			参数 & srcImage: 
-//			参数 & dst_myGaussianBlur: 
-//			参数 ksize:
-//			参数 sigma:
+//	void myGaussianBlur(Mat& srcImage, Mat& dstImage, int ksize, int sigma);
+//		描述	
+//			高斯平滑滤波
+//		参数 
+//			& srcImage :输入图像
+//			& dstImage :输出图像
+//			ksize      :模板大小
+//			sigma      :高斯标准差
 //-------------------------------------------------------------------------------------------------    
-void myGaussianBlur(const Mat& srcImage, Mat& dst_myGaussianBlur, int ksize, int sigma)
+void myGaussianBlur(const Mat& srcImage, Mat& dstImage, int ksize, double sigma)
 {
     if(srcImage.empty()) {printf("Cannot read image file"); return; }
     //--------------------------------【 mygetGaussianKernel()函数 】----------------------------------------------
     //		获取高斯滤波器系数. 
     //		Returns Gaussian filter coefficients.
     //-------------------------------------------------------------------------------------------------
-    double **arr; 
-    arr = mygetGaussianKernel(ksize, sigma); 
+    double **kernel; 
+    kernel = mygetGaussianKernel(ksize, sigma); 
     
-    
-    Mat tmp(srcImage.size(), srcImage.type());  
-    for (int i = 0; i < srcImage.rows; ++i)  
-        for (int j = 0; j < srcImage.cols; ++j) 
-	{
-            //边缘不进行处理  
-            if ((i - 1) > 0 && (i + 1) < srcImage.rows && (j - 1) > 0 && (j + 1) < srcImage.cols) 
-	    { 
-                tmp.at<Vec3b>(i, j)[0] = 0;
-                tmp.at<Vec3b>(i, j)[1] = 0;
-                tmp.at<Vec3b>(i, j)[2] = 0;
-		/////////////////////////////////////////////////[??????????????]未完成!这里使用的是3X3模板啊!!!
-                for (int x = 0; x < ksize; ++x)
-		{  
-                    for (int y = 0; y < ksize; ++y)
-		    {  
-                            tmp.at<Vec3b>(i, j)[0] += arr[x][y] * srcImage.at<Vec3b>(i + 1 - x, j + 1 - y)[0];  
-                            tmp.at<Vec3b>(i, j)[1] += arr[x][y] * srcImage.at<Vec3b>(i + 1 - x, j + 1 - y)[1];  
-                            tmp.at<Vec3b>(i, j)[2] += arr[x][y] * srcImage.at<Vec3b>(i + 1 - x, j + 1 - y)[2];  
-                    }  
-                }  
-            }  
-        }  
-    tmp.copyTo(dst_myGaussianBlur);  
-    
+    //--------------------------------【 convolution()函数 】----------------------------------------------
+    //		卷积计算
+    //-------------------------------------------------------------------------------------------------
+    myconvolution(srcImage, dstImage, kernel, ksize);
 }
 
 
@@ -109,7 +149,7 @@ static void help()
     cout << "\n使用:\n"
             "\t./Gaussian_filter [图片名称 -- 默认值为 ubuntu.png]\n\n";
 	
-    cout << "\nThis is a demo of ,"
+    cout << "\nBlurs an image using a Gaussian filter."
             "\nUsing OpenCV version " << CV_VERSION << endl;
     cout << "\nCall:\n"
             "    ./Gaussian_filter [image_name -- Default is ubuntu.png]\n\n";
@@ -125,7 +165,6 @@ int main(int argc, char** argv)
 {
     CommandLineParser parser(argc, argv, keys); 
     if (parser.has("help"))  { help();  return 0; }
-
     string filename = parser.get<string>(0);
 
     Mat srcImage;
@@ -140,25 +179,30 @@ int main(int argc, char** argv)
 
     //--------------------------------【 myGaussianBlur()函数 】----------------------------------------------
     //		高斯平滑滤波.
-    //		Blurs an image using a Gaussian filter.
     //-------------------------------------------------------------------------------------------------
-    int sigma= 3;
-    int ksize= 15;
+    //【方式一】指定模板大小,并由模板大小计算sigma
+    //see: https://docs.opencv.org/3.3.1/d4/d86/group__imgproc__filter.html#gac05a120c1ae92a6060dd0db190a61afa
+    int ksize= 15;   
+    double sigma = 0.3*((ksize-1)*0.5 - 1) + 0.8;
+    //【方式二】指定sigma,并由sigma计算模板大小
+    //通过sigma得到模板大小 仅需要取均值周围3倍标准差内的值，以外部份直接去掉即可
+    //double sigma= 0.7;
+    //int ksize = 2* ceil(3*sigma)-1;//ceil函数向上取整，且需要保证为奇数
+    
     myGaussianBlur(srcImage, dst_myGaussianBlur, ksize, sigma);
-    //保证安全,归一化到0~255  
-    normalize(dst_myGaussianBlur, dst_myGaussianBlur, 0, 255, CV_MINMAX);
-
+    //归定化到0~255  
+    //normalize(dst_myGaussianBlur, dst_myGaussianBlur, 0, 255, CV_MINMAX);
+    
     //--------------------------------【 GaussianBlur()函数 】----------------------------------------------
-    //         opencv内置的高斯平滑滤波函数
+    //         opencv提供的高斯平滑滤波函数
+    //         void GaussianBlur( InputArray src, OutputArray dst, Size ksize,
+    //                            double sigmaX, double sigmaY = 0,
+    //                            int borderType = BORDER_DEFAULT );
     //-------------------------------------------------------------------------------------------------
-    int sigmax = 3;
-    int sigmay = 3;
-    int ksizew = 15;
-    int ksizeh = 15;
-    //int ksizew = (sigmax*5)|1;
-    //int ksizeh = (sigmay*5)|1;
-    //namedWindow( "Sigma", 0 );
-    //createTrackbar( "Sigma", "Sigma", &sigma, 15, 0 );
+    double sigmax = sigma;
+    double sigmay = sigmax; //此处取相等
+    int ksizew = ksize;
+    int ksizeh = ksizew;//此处取相等
     GaussianBlur(srcImage, dst_opencvGaussianBlur, Size(ksizew, ksizeh), sigmax, sigmay);
     
     
@@ -168,6 +212,7 @@ int main(int argc, char** argv)
     imshow("dst_myGaussianBlur",dst_myGaussianBlur);
     namedWindow("dst_opencvGaussianBlur", WINDOW_AUTOSIZE);
     imshow("dst_opencvGaussianBlur", dst_opencvGaussianBlur);
+    
     waitKey(0);
     return 0;
 }

@@ -6,7 +6,7 @@
  *
  * Filename                : equalizeHist.cpp
  * Description             : (编译环境：OpenCV3.3.1 + Ubuntu16.04)
- *			                	对一个灰度图做直方图均衡化    
+ *			      对一个灰度图做直方图均衡化    
  * Reference               : 
  * Programmer(s)           : William Yu, windmillyucong@163.com
  * Company                 : HUST
@@ -49,8 +49,8 @@ int main(int argc, char** argv)
     srcImage= imread(filename, 0);
     if(srcImage.empty()) {printf("Cannot read image file: %s\n", filename.c_str()); return -1; }
  
-    //--------------------------------equalizeHist( )----------------------------------------------
-    //      直方图均衡化	  
+    //--------------------------------【 equalizeHist() 】----------------------------------------------
+    //      opencv提供的直方图均衡化	  
     //-----------------------------------------------------------------------------------------
     equalizeHist(srcImage, dstImage);
     

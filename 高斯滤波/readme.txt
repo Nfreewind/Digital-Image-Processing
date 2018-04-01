@@ -10,11 +10,11 @@
  * Reference               : https://docs.opencv.org/3.3.1/d4/d86/group__imgproc__filter.html#gaabe8c836e97159a9193fb0b11ac52cf1
  *				https://docs.opencv.org/3.3.1/d4/d86/group__imgproc__filter.html#gac05a120c1ae92a6060dd0db190a61afa
  * 				https://docs.opencv.org/3.3.1/de/db2/laplace_8cpp-example.html#a17
- *				http://blog.csdn.net/weixin_37720172/article/details/72843238,,,,,,,该文档代码怀疑有错误,已与作者联系
+ *				http://blog.csdn.net/weixin_37720172/article/details/72843238该文档代码有错误,已与作者联系
  * Programmer(s)           : William Yu, windmillyucong@163.com
  * Company                 : HUST
  * Modification History	   : ver1.0, 2018.03.22, William Yu
-                             ver1.1, 2018.03.22, William Yu, add notes
+                             ver1.1, 2018.03.31, William Yu, add notes
 =====================================================================================*/
 
 g++编译:

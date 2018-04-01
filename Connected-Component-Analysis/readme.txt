@@ -19,3 +19,5 @@ g++  搜索连通域.cpp -o search  `pkg-config  --cflags --libs opencv`
 
 Usage:
 ./search -help                     | 查看帮助信息
+./search Sdf                       | 使用种子填充法
+./search 2Ps                       | 使用两遍扫描法
