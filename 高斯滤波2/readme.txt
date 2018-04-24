@@ -7,18 +7,12 @@
  * Filename                : Gaussian_filter.cpp
  * Description             : (编译环境：OpenCV3.3.1 + Ubuntu16.04)
  *			
- * Reference               : https://docs.opencv.org/3.3.1/d4/d86/group__imgproc__filter.html#gaabe8c836e97159a9193fb0b11ac52cf1
- *				https://docs.opencv.org/3.3.1/d4/d86/group__imgproc__filter.html#gac05a120c1ae92a6060dd0db190a61afa
- * 				https://docs.opencv.org/3.3.1/de/db2/laplace_8cpp-example.html#a17
- *				http://blog.csdn.net/weixin_37720172/article/details/72843238该文档代码有错误,已与作者联系
+ * Reference               : http://www.cnblogs.com/love6tao/p/5152020.html
+ *				该文档代码怀疑有错误,已与作者联系
  * Programmer(s)           : William Yu, windmillyucong@163.com
  * Company                 : HUST
- * Modification History	   : ver1.0, 2018.03.22, William Yu
-                             ver1.1, 2018.03.23, William Yu, add notes
-                             ver1.2, 2018.03.31, William Yu, add Q1
-			      Q1: 卷积核越大，图像整体越暗(solved)
-			      A1: double temp 
-			     ver1.3, 2018.04.01, William Yu, Q1 solved
+ * Modification History	   : ver1.0, 2018.03.28, William Yu
+                             ver1.1, 2018.03.29, William Yu, add notes
 =====================================================================================*/
 
 g++编译:

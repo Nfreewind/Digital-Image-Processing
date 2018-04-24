@@ -57,7 +57,7 @@ void myconvolution(const Mat& myImage, Mat& Result, double ** kernel, int ksize)
         for(int i = nChannels * center; i < nChannels*myImage.cols - nChannels * center; ++i)
         {
 	  ///卷积操作
-	  int temp = 0;
+	  double temp = 0;
 	  for(int aaa=0; aaa<ksize; ++aaa) 
 	  {
 	     for(int bbb=0; bbb<ksize; ++bbb)
@@ -65,11 +65,12 @@ void myconvolution(const Mat& myImage, Mat& Result, double ** kernel, int ksize)
 		temp += kernel[aaa][bbb] * col_ptrs[aaa][i - nChannels*center + nChannels*bbb];
 	     }
 	  }
-	  ///saturate_cast函数 ： a>255则a=255,a<0，则a=0
+	  ///saturate_cast函数,强制限定为uchar ： a>255则a=255,a<0，则a=0
 	  *output++ = saturate_cast<uchar>(temp); 
 	}
     }
 }
+
 
 static void help()
 {
