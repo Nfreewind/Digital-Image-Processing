@@ -1,15 +1,14 @@
 /*=====================================================================================
  *                Copyleft! 2018 William Yu
- *          Some rights reserved£ºCC(creativecommons.org)BY-NC-SA
+ *          Some rights reservedï¿½ï¿½CC(creativecommons.org)BY-NC-SA
  *                Copyleft! 2018 William Yu
- *       °æÈ¨²¿·ÖËùÓÐ£¬×ñÑ­CC(creativecommons.org)BY-NC-SAÐ­ÒéÊÚÈ¨·½Ê½Ê¹ÓÃ
+ *       ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½Ñ­CC(creativecommons.org)BY-NC-SAÐ­ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½Ê½Ê¹ï¿½ï¿½
  *
  * Filename                : canny.cpp
- * Description             : (±àÒë»·¾³£ºOpenCV3.3.1 + Ubuntu16.04)
+ * Description             : (ï¿½ï¿½ï¿½ë»·ï¿½ï¿½ï¿½ï¿½OpenCV3.3.1 + Ubuntu16.04)
  *			
  * Reference               : https://docs.opencv.org/3.3.1/da/d5c/tutorial_canny_detector.html
  * 				https://docs.opencv.org/3.3.1/dd/d1a/group__imgproc__feature.html#ga04723e007ed888ddf11d9ba04e2232de
- * 				http://www.cnblogs.com/love6tao/p/5152020.html
  * 				https://blog.csdn.net/dcrmg/article/details/52344902
  * Programmer(s)           : William Yu, windmillyucong@163.com
  * Company                 : HUST
@@ -21,8 +20,8 @@
 
 using namespace std;
 using namespace cv;
-//-----------------------------------¡¾È«¾Ö±äÁ¿ÉùÃ÷²¿·Ö¡¿--------------------------------------
-//		ÃèÊö£ºÈ«¾Ö±äÁ¿µÄÉùÃ÷
+//-----------------------------------ï¿½ï¿½È«ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½--------------------------------------
+//		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------------------------
 using namespace cv;
 Mat src, src_gray;
@@ -35,16 +34,16 @@ int const max_ratio = 12;
 int kernel_size = 3;
 const char* window_name = "Edge Map";
 
-//--------------------------------¡¾ CannyThreshold()º¯Êý ¡¿----------------------------------------------
-//        ²ÎÊýËµÃ÷£º
+//--------------------------------ï¿½ï¿½ CannyThreshold()ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½----------------------------------------------
+//        ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½
 //            static void CannyThreshold(int, void*)
-//			»Øµ÷
+//			ï¿½Øµï¿½
 //-------------------------------------------------------------------------------------------------
 static void CannyThreshold(int, void*)
 {
     blur( src_gray, detected_edges, Size(3,3) );
-    //--------------------------------¡¾ Canny()º¯Êý ¡¿----------------------------------------------
-    //        ²ÎÊýËµÃ÷£º
+    //--------------------------------ï¿½ï¿½ Canny()ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½----------------------------------------------
+    //        ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½
     //            void cv::Canny(InputArray image,OutputArray edges,double threshold1,double threshold2,int apertureSize = 3,bool L2gradient = false )
     //			Parameters
     //				image : 8-bit input image.
@@ -52,25 +51,25 @@ static void CannyThreshold(int, void*)
     //				threshold1 : first threshold for the hysteresis procedure.
     //                          threshold2 : second threshold for the hysteresis procedure.
     //				apertureSize : aperture size for the Sobel operator.
-    //				L2gradient : a flag, indicating whether a more accurate L2 norm =¡Ì6¨26¨2((dI/dx)^2+(dI/dy)^2)6¨26¨26¨2 should be used to calculate the image gradient magnitude ( L2gradient=true ), or whether the default L1 norm =|dI/dx|+|dI/dy| is enough ( L2gradient=false ).
+    //				L2gradient : a flag, indicating whether a more accurate L2 norm =ï¿½Ì6ï¿½2ï¿½6ï¿½2((dI/dx)^2+(dI/dy)^2)ï¿½6ï¿½2ï¿½6ï¿½2ï¿½6ï¿½2 should be used to calculate the image gradient magnitude ( L2gradient=true ), or whether the default L1 norm =|dI/dx|+|dI/dy| is enough ( L2gradient=false ).
     //-------------------------------------------------------------------------------------------------
     Canny( detected_edges, detected_edges, lowThreshold, lowThreshold*ratio, kernel_size );
     dst = Scalar::all(0);
     src.copyTo( dst, detected_edges);
     imshow( window_name, dst );
 }
-////////////////////¡¾×¢Òâ¡¿´Ë´¦±È½ÏÓÐÈ¤µÄÏë·¨,µ±²»ÄÜÖ±½Ó´¦Àí²ÊÉ«Í¼Æ¬Ê±£¬ÏÈ´¦ÀíÆä»Ò¶ÈÍ¼£¬ÔÙµþ¼Ó»Ø²ÊÉ«Í¼Æ¬ÉÏÃæÈ¥£¬Âú·Ö²Ù×÷///////////
+////////////////////ï¿½ï¿½×¢ï¿½â¡¿ï¿½Ë´ï¿½ï¿½È½ï¿½ï¿½ï¿½È¤ï¿½ï¿½ï¿½ë·¨,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó´ï¿½ï¿½ï¿½ï¿½É«Í¼Æ¬Ê±ï¿½ï¿½ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½Í¼ï¿½ï¿½ï¿½Ùµï¿½ï¿½Ó»Ø²ï¿½É«Í¼Æ¬ï¿½ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ï¿½Ö²ï¿½ï¿½ï¿½///////////
 
 
 
 
-//--------------------------------¡¾ myconvolution()º¯Êý ¡¿----------------------------------------------
+//--------------------------------ï¿½ï¿½ myconvolution()ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½----------------------------------------------
 //	void myconvolution(const Mat& myImage, Mat& Result, double ** kernel, int ksize);
-//		²ÎÊý
-//			& myImage  :ÊäÈëÍ¼Ïñ
-//			& Result   :Êä³öÍ¼Ïñ
-//			& kernel   :¾í»ýºË
-//			ksize      :¾í»ýºË´óÐ¡
+//		ï¿½ï¿½ï¿½ï¿½
+//			& myImage  :ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
+//			& Result   :ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
+//			& kernel   :ï¿½ï¿½ï¿½ï¿½ï¿½
+//			ksize      :ï¿½ï¿½ï¿½ï¿½Ë´ï¿½Ð¡
 //------------------------------------------------------------------------------------------------- 
 void myconvolution(const Mat& myImage, Mat& Result, double ** kernel, int ksize)
 {
@@ -79,7 +78,7 @@ void myconvolution(const Mat& myImage, Mat& Result, double ** kernel, int ksize)
     
     for(int j = center; j < myImage.rows - center; ++j)
     {
-	///´´½¨ÐÐÖ¸ÕëÊ×µØÖ·ÐòÁÐ
+	///ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½ï¿½ï¿½
 	vector<const uchar*> col_ptrs;
 	for(int k= 0; k< ksize; ++k)
 	{
@@ -87,12 +86,12 @@ void myconvolution(const Mat& myImage, Mat& Result, double ** kernel, int ksize)
 	  col_ptrs.push_back(col_ptr);
 	}
 	
-	uchar* output = Result.ptr<uchar>(j); //½á¹ûÍ¼Æ¬ÐÐÊ×µØÖ·
-	output += nChannels * center; //½«ÐÐÊ×µØÖ·¼ÓÆ«ÒÆÁ¿
+	uchar* output = Result.ptr<uchar>(j); //ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½×µï¿½Ö·
+	output += nChannels * center; //ï¿½ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½Æ«ï¿½ï¿½ï¿½ï¿½
 	
         for(int i = nChannels * center; i < nChannels*myImage.cols - nChannels * center; ++i)
         {
-	  ///¾í»ý²Ù×÷
+	  ///ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	  double temp = 0;
 	  for(int aaa=0; aaa<ksize; ++aaa) 
 	  {
@@ -101,17 +100,17 @@ void myconvolution(const Mat& myImage, Mat& Result, double ** kernel, int ksize)
 		temp += kernel[aaa][bbb] * col_ptrs[aaa][i - nChannels*center + nChannels*bbb];
 	     }
 	  }
-	  ///saturate_castº¯Êý,Ç¿ÖÆÏÞ¶¨Îªuchar £º a>255Ôòa=255,a<0£¬Ôòa=0
+	  ///saturate_castï¿½ï¿½ï¿½ï¿½,Ç¿ï¿½ï¿½ï¿½Þ¶ï¿½Îªuchar ï¿½ï¿½ a>255ï¿½ï¿½a=255,a<0ï¿½ï¿½ï¿½ï¿½a=0
 	  *output++ = saturate_cast<uchar>(temp); 
 	}
     }
 }
 
-//--------------------------------¡¾ mygetGaussianKernel()º¯Êý ¡¿----------------------------------------------
+//--------------------------------ï¿½ï¿½ mygetGaussianKernel()ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½----------------------------------------------
 //	double ** mygetGaussianKernel(int ksize, double sigma);
-//		²ÎÊý
-//			ksize      :Ä£°å´óÐ¡
-//			sigma      :¸ßË¹±ê×¼²î
+//		ï¿½ï¿½ï¿½ï¿½
+//			ksize      :Ä£ï¿½ï¿½ï¿½Ð¡
+//			sigma      :ï¿½ï¿½Ë¹ï¿½ï¿½×¼ï¿½ï¿½
 //------------------------------------------------------------------------------------------------- 
 double ** mygetGaussianKernel(int ksize, double sigma)
 {
@@ -119,12 +118,12 @@ double ** mygetGaussianKernel(int ksize, double sigma)
     double sum = 0.0;  
     int center = ksize/2;
     
-    ///½¨Á¢Ò»¸ösize*size´óÐ¡µÄ¶¯Ì¬¶þÎ¬Êý×é  
+    ///ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½size*sizeï¿½ï¿½Ð¡ï¿½Ä¶ï¿½Ì¬ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½  
     double **arr = new double*[ksize];
     for (i = 0; i < ksize; ++i)  
         arr[i] = new double[ksize];  
     
-    ///¸ßË¹º¯Êý  
+    ///ï¿½ï¿½Ë¹ï¿½ï¿½ï¿½ï¿½  
     for (i = 0; i < ksize; ++i)  
         for (j = 0; j < ksize; ++j) 
 	{  
@@ -132,7 +131,7 @@ double ** mygetGaussianKernel(int ksize, double sigma)
             sum += arr[i][j];  
         }
         
-    ///¹éÒ»»¯
+    ///ï¿½ï¿½Ò»ï¿½ï¿½
     double chacksum=0;
     for (i = 0; i < ksize; ++i)  
         for (j = 0; j < ksize; ++j)  
@@ -141,7 +140,7 @@ double ** mygetGaussianKernel(int ksize, double sigma)
 	  chacksum += arr[i][j];
 	}
     /*
-    ///Êä³ö
+    ///ï¿½ï¿½ï¿½
     printf("%.10f ",chacksum);
     for (i = 0; i < ksize; ++i)
       for (j = 0; j < ksize; ++j)
@@ -154,37 +153,37 @@ double ** mygetGaussianKernel(int ksize, double sigma)
 }
 
 
-//--------------------------------¡¾ myGaussianBlur()º¯Êý ¡¿----------------------------------------------
+//--------------------------------ï¿½ï¿½ myGaussianBlur()ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½----------------------------------------------
 //	void myGaussianBlur(Mat& srcImage, Mat& dstImage, int ksize, int sigma);
-//		ÃèÊö	
-//			¸ßË¹Æ½»¬ÂË²¨
-//		²ÎÊý 
-//			& srcImage :ÊäÈëÍ¼Ïñ
-//			& dstImage :Êä³öÍ¼Ïñ
-//			ksize      :Ä£°å´óÐ¡
-//			sigma      :¸ßË¹±ê×¼²î
+//		ï¿½ï¿½ï¿½ï¿½	
+//			ï¿½ï¿½Ë¹Æ½ï¿½ï¿½ï¿½Ë²ï¿½
+//		ï¿½ï¿½ï¿½ï¿½ 
+//			& srcImage :ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
+//			& dstImage :ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
+//			ksize      :Ä£ï¿½ï¿½ï¿½Ð¡
+//			sigma      :ï¿½ï¿½Ë¹ï¿½ï¿½×¼ï¿½ï¿½
 //-------------------------------------------------------------------------------------------------    
 void myGaussianBlur(const Mat& srcImage, Mat& dstImage, int ksize, double sigma)
 {
     if(srcImage.empty()) {printf("Cannot read image file"); return; }
-    //--------------------------------¡¾ mygetGaussianKernel()º¯Êý ¡¿----------------------------------------------
-    //		»ñÈ¡¸ßË¹ÂË²¨Æ÷ÏµÊý. 
+    //--------------------------------ï¿½ï¿½ mygetGaussianKernel()ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½----------------------------------------------
+    //		ï¿½ï¿½È¡ï¿½ï¿½Ë¹ï¿½Ë²ï¿½ï¿½ï¿½Ïµï¿½ï¿½. 
     //		Returns Gaussian filter coefficients.
     //-------------------------------------------------------------------------------------------------
     double **kernel; 
     kernel = mygetGaussianKernel(ksize, sigma); 
     
-    //--------------------------------¡¾ convolution()º¯Êý ¡¿----------------------------------------------
-    //		¾í»ý¼ÆËã
+    //--------------------------------ï¿½ï¿½ convolution()ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½----------------------------------------------
+    //		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     //-------------------------------------------------------------------------------------------------
     myconvolution(srcImage, dstImage, kernel, ksize);
 }
 
-/******************Sobel¾í»ýÒò×Ó¼ÆËãX¡¢Y·½ÏòÌÝ¶ÈºÍÌÝ¶È·½Ïò½Ç********************  
-//µÚÒ»¸ö²ÎÊýimageSourcÔ­Ê¼»Ò¶ÈÍ¼Ïñ£»  
-//µÚ¶þ¸ö²ÎÊýimageSobelXÊÇX·½ÏòÌÝ¶ÈÍ¼Ïñ£»  
-//µÚÈý¸ö²ÎÊýimageSobelYÊÇY·½ÏòÌÝ¶ÈÍ¼Ïñ£»  
-//µÚËÄ¸ö²ÎÊýpointDrectionÊÇÌÝ¶È·½Ïò½ÇÊý×éÖ¸Õë  
+/******************Sobelï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½Xï¿½ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½Ý¶Èºï¿½ï¿½Ý¶È·ï¿½ï¿½ï¿½ï¿½********************  
+//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½imageSourcÔ­Ê¼ï¿½Ò¶ï¿½Í¼ï¿½ï¿½  
+//ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½imageSobelXï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½Í¼ï¿½ï¿½  
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½imageSobelYï¿½ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½Í¼ï¿½ï¿½  
+//ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½ï¿½pointDrectionï¿½ï¿½ï¿½Ý¶È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½  
 //*************************************************************/
 void SobelGradDirction(const Mat& imageSource,Mat &imageSobelX,Mat &imageSobelY,double *&pointDrection)  
 {  
@@ -208,16 +207,16 @@ void SobelGradDirction(const Mat& imageSource,Mat &imageSobelX,Mat &imageSobelY,
     {    
         for(int j=1;j<(imageSource.cols-1);j++)    
         {    
-            //Í¨¹ýÖ¸Õë±éÀúÍ¼ÏñÉÏÃ¿Ò»¸öÏñËØ   
+            //Í¨ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   
             double gradY=P[(i-1)*step+j+1]+P[i*step+j+1]*2+P[(i+1)*step+j+1]-P[(i-1)*step+j-1]-P[i*step+j-1]*2-P[(i+1)*step+j-1];  
             PY[i*stepXY+j*(stepXY/step)]=abs(gradY);  
             double gradX=P[(i+1)*step+j-1]+P[(i+1)*step+j]*2+P[(i+1)*step+j+1]-P[(i-1)*step+j-1]-P[(i-1)*step+j]*2-P[(i-1)*step+j+1];  
             PX[i*stepXY+j*(stepXY/step)]=abs(gradX);  
             if(gradX==0)  
             {  
-                gradX=0.00000000000000001;  //·ÀÖ¹³ýÊýÎª0Òì³£  
+                gradX=0.00000000000000001;  //ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½Îª0ï¿½ì³£  
             }  
-            pointDrection[k]=atan(gradY/gradX)*57.3;//»¡¶È×ª»»Îª¶È  
+            pointDrection[k]=atan(gradY/gradX)*57.3;//ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½  
             pointDrection[k]+=90;  
             k++;  
         }    
@@ -226,10 +225,10 @@ void SobelGradDirction(const Mat& imageSource,Mat &imageSobelX,Mat &imageSobelY,
     convertScaleAbs(imageSobelY,imageSobelY);  
 }  
 
-//******************¼ÆËãSobelµÄXºÍY·½ÏòÌÝ¶È·ùÖµ*************************  
-//µÚÒ»¸ö²ÎÊýimageGradXÊÇX·½ÏòÌÝ¶ÈÍ¼Ïñ£»  
-//µÚ¶þ¸ö²ÎÊýimageGradYÊÇY·½ÏòÌÝ¶ÈÍ¼Ïñ£»  
-//µÚÈý¸ö²ÎÊýSobelAmpXYÊÇÊä³öµÄX¡¢Y·½ÏòÌÝ¶ÈÍ¼Ïñ·ùÖµ  
+//******************ï¿½ï¿½ï¿½ï¿½Sobelï¿½ï¿½Xï¿½ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½Ý¶È·ï¿½Öµ*************************  
+//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½imageGradXï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½Í¼ï¿½ï¿½  
+//ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½imageGradYï¿½ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½Í¼ï¿½ï¿½  
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SobelAmpXYï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½Í¼ï¿½ï¿½ï¿½Öµ  
 //*************************************************************  
 void SobelAmplitude(const Mat imageGradX,const Mat imageGradY,Mat &SobelAmpXY)  
 {  
@@ -244,10 +243,10 @@ void SobelAmplitude(const Mat imageGradX,const Mat imageGradY,Mat &SobelAmpXY)
     convertScaleAbs(SobelAmpXY,SobelAmpXY);  
 }  
 
-//******************¾Ö²¿¼«´óÖµÒÖÖÆ*************************  
-//µÚÒ»¸ö²ÎÊýimageInputÊäÈëµÄSobelÌÝ¶ÈÍ¼Ïñ£»  
-//µÚ¶þ¸ö²ÎÊýimageOutPutÊÇÊä³öµÄ¾Ö²¿¼«´óÖµÒÖÖÆÍ¼Ïñ£»  
-//µÚÈý¸ö²ÎÊýpointDrectionÊÇÍ¼ÏñÉÏÃ¿¸öµãµÄÌÝ¶È·½ÏòÊý×éÖ¸Õë  
+//******************ï¿½Ö²ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½*************************  
+//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½imageInputï¿½ï¿½ï¿½ï¿½ï¿½Sobelï¿½Ý¶ï¿½Í¼ï¿½ï¿½  
+//ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½imageOutPutï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¾Ö²ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½  
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pointDrectionï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¶È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½  
 //*************************************************************  
 void LocalMaxValue(const Mat imageInput,Mat &imageOutput,double *pointDrection)  
 {  
@@ -303,10 +302,10 @@ void LocalMaxValue(const Mat imageInput,Mat &imageOutput,double *pointDrection)
     }  
 }
 
-//******************Ë«ãÐÖµ´¦Àí*************************  
-//µÚÒ»¸ö²ÎÊýimageInputÊäÈëºÍÊä³öµÄµÄSobelÌÝ¶È·ùÖµÍ¼Ïñ£»  
-//µÚ¶þ¸ö²ÎÊýlowThresholdÊÇµÍãÐÖµ  
-//µÚÈý¸ö²ÎÊýhighThresholdÊÇ¸ßãÐÖµ  
+//******************Ë«ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½*************************  
+//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½imageInputï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Sobelï¿½Ý¶È·ï¿½ÖµÍ¼ï¿½ï¿½  
+//ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lowThresholdï¿½Çµï¿½ï¿½ï¿½Öµ  
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½highThresholdï¿½Ç¸ï¿½ï¿½ï¿½Öµ  
 //******************************************************  
 void DoubleThreshold(Mat &imageIput,double lowThreshold,double highThreshold)  
 {  
@@ -326,10 +325,10 @@ void DoubleThreshold(Mat &imageIput,double lowThreshold,double highThreshold)
     }  
 }  
 
-//******************Ë«ãÐÖµÖÐ¼äÏñËØÁ¬½Ó´¦Àí*********************  
-//µÚÒ»¸ö²ÎÊýimageInputÊäÈëºÍÊä³öµÄµÄSobelÌÝ¶È·ùÖµÍ¼Ïñ£»  
-//µÚ¶þ¸ö²ÎÊýlowThresholdÊÇµÍãÐÖµ  
-//µÚÈý¸ö²ÎÊýhighThresholdÊÇ¸ßãÐÖµ  
+//******************Ë«ï¿½ï¿½Öµï¿½Ð¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó´ï¿½ï¿½ï¿½*********************  
+//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½imageInputï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Sobelï¿½Ý¶È·ï¿½ÖµÍ¼ï¿½ï¿½  
+//ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lowThresholdï¿½Çµï¿½ï¿½ï¿½Öµ  
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½highThresholdï¿½Ç¸ï¿½ï¿½ï¿½Öµ  
 //*************************************************************  
 void DoubleThresholdLink(Mat &imageInput,double lowThreshold,double highThreshold)  
 {  
@@ -344,7 +343,7 @@ void DoubleThresholdLink(Mat &imageInput,double lowThreshold,double highThreshol
                     imageInput.at<uchar>(i+1,j-1)==255||imageInput.at<uchar>(i+1,j)==255||imageInput.at<uchar>(i+1,j+1)==255)  
                 {  
                     imageInput.at<uchar>(i,j)=255;  
-                    DoubleThresholdLink(imageInput,lowThreshold,highThreshold); //µÝ¹éµ÷ÓÃ  
+                    DoubleThresholdLink(imageInput,lowThreshold,highThreshold); //ï¿½Ý¹ï¿½ï¿½ï¿½ï¿½  
                 }     
                 else  
             {  
@@ -356,20 +355,20 @@ void DoubleThresholdLink(Mat &imageInput,double lowThreshold,double highThreshol
 }  
 
 
-//--------------------------------¡¾ myCanny()º¯Êý ¡¿----------------------------------------------
-//	CannyËã×ÓÇó±ßÔµµã¾ßÌåËã·¨²½ÖèÈçÏÂ£º
-//			1. ÓÃ¸ßË¹ÂË²¨Æ÷Æ½»¬Í¼Ïñ
-//			2. ÓÃÒ»½×Æ«µ¼ÓÐÏÞ²î·Ö¼ÆËãÌÝ¶È·ùÖµºÍ·½Ïò
-//			3. ¶ÔÌÝ¶È·ùÖµ½øÐÐ·Ç¼«´óÖµÒÖÖÆ
-//			4. ÓÃË«ãÐÖµËã·¨¼ì²âºÍÁ¬½Ó±ßÔµ        
+//--------------------------------ï¿½ï¿½ myCanny()ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½----------------------------------------------
+//	Cannyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â£ï¿½
+//			1. ï¿½Ã¸ï¿½Ë¹ï¿½Ë²ï¿½ï¿½ï¿½Æ½ï¿½ï¿½Í¼ï¿½ï¿½
+//			2. ï¿½ï¿½Ò»ï¿½ï¿½Æ«ï¿½ï¿½ï¿½ï¿½ï¿½Þ²ï¿½Ö¼ï¿½ï¿½ï¿½ï¿½Ý¶È·ï¿½Öµï¿½Í·ï¿½ï¿½ï¿½
+//			3. ï¿½ï¿½ï¿½Ý¶È·ï¿½Öµï¿½ï¿½ï¿½Ð·Ç¼ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
+//			4. ï¿½ï¿½Ë«ï¿½ï¿½Öµï¿½ã·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó±ï¿½Ôµ        
 //	void myCanny()
-//		²ÎÊý : 
+//		ï¿½ï¿½ï¿½ï¿½ : 
 //		
 //-------------------------------------------------------------------------------------------------
 void myCanny(Mat& src, Mat& dst, double threshold1, double threshold2, int apertureSize = 3, bool L2gradient = false )
 {
     //-----------------------------------------------------------------------------------
-    //	¸ßË¹Æ½»¬ÂË²¨
+    //	1.ï¿½ï¿½Ë¹Æ½ï¿½ï¿½ï¿½Ë²ï¿½
     //---------------------------------------------------------------
     Mat dst_GaussianBlur;
     dst_GaussianBlur.create(src.size(), src.type());
@@ -383,9 +382,9 @@ void myCanny(Mat& src, Mat& dst, double threshold1, double threshold2, int apert
     
     
     //-----------------------------------------------------------------------------------
-    //	ÓÃSobelµÈÌÝ¶ÈËã×Ó¼ÆËãÌÝ¶È·ùÖµºÍ·½Ïò
+    //	2.ï¿½ï¿½Sobelï¿½ï¿½ï¿½Ý¶ï¿½ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½Ý¶È·ï¿½Öµï¿½Í·ï¿½ï¿½ï¿½
     //---------------------------------------------------------------
-    //¿ÉÒÔÓÃ²»Í¬µÄ¼ì²âÆ÷
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ã²ï¿½Í¬ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½
     //P[i,j]=(S[i+1,j]-S[i,j]+S[i+1,j+1]-S[i,j+1])/2
     //Q[i,j]=(S[i,j]-S[i,j+1]+S[i+1,j]-S[i+1,j+1])/2
     //---------------------------------------------------------------
@@ -408,31 +407,37 @@ void myCanny(Mat& src, Mat& dst, double threshold1, double threshold2, int apert
     waitKey(0);  
     destroyWindow("SobelAmpXY");
     
+    //-----------------------------------------------------------------------------------
+    //	3.ï¿½Ç¼ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
+    //---------------------------------------------------------------
     Mat limit;
     limit.create(src.size(), src.type());
-    LocalMaxValue( imageSobelX, limit, pointDrection); 
+    LocalMaxValue( imageSobelX, limit, pointDrection);
     imshow("limit",limit);
-    waitKey(0);  
+    waitKey(0);
     destroyWindow("limit");
     
+    //-----------------------------------------------------------------------------------
+    //	4.Ë«ï¿½ï¿½Öµï¿½Ô¼ï¿½Ë«ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
+    //---------------------------------------------------------------
     DoubleThreshold(limit,60,100);
     imshow("DoubleThreshold",limit);
-    waitKey(0);  
+    waitKey(0);
     destroyWindow("DoubleThreshold");
     
     DoubleThresholdLink(limit, 60, 100);
     imshow("Canny Image",limit);
-    waitKey(0);  
+    waitKey(0);
     destroyWindow("Canny Image");
 }
 
 
 static void help()
 {
-    cout << "\nÕâÊÇÒ»¸öÑÝÊ¾Êý×ÖÍ¼Ïñ´¦ÀícannyËã×Ó¼ì²â±ßÔµµÄ³ÌÐò"
-            "\nÊ¹ÓÃOpenCV version " << CV_VERSION << endl;
-    cout << "\nÊ¹ÓÃ:\n"
-            "\t./canny [Í¼Æ¬Ãû³Æ -- Ä¬ÈÏÖµÎª ubuntu.png]\n\n";
+    cout << "\nï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½cannyï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½Ôµï¿½Ä³ï¿½ï¿½ï¿½"
+            "\nÊ¹ï¿½ï¿½OpenCV version " << CV_VERSION << endl;
+    cout << "\nÊ¹ï¿½ï¿½:\n"
+            "\t./canny [Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ -- Ä¬ï¿½ï¿½ÖµÎª ubuntu.png]\n\n";
 	
     cout << "\nThis is a demo of ,"
             "\nUsing OpenCV version " << CV_VERSION << endl;
@@ -463,23 +468,23 @@ int main(int argc, char** argv)
     //Mat src_gray;
     cvtColor( src, src_gray, COLOR_BGR2GRAY );
   
-    //--------------------------------¡¾ CannyThreshold()º¯Êý ¡¿----------------------------------------------
-    //         opencvÄÚÖÃµÄcannyËã×Ó,²¢×öãÐÖµµ÷¿Ø
+    //--------------------------------ï¿½ï¿½ CannyThreshold()ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½----------------------------------------------
+    //         opencvï¿½ï¿½ï¿½Ãµï¿½cannyï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
     //-------------------------------------------------------------------------------------------------
     namedWindow( window_name, WINDOW_AUTOSIZE );
     createTrackbar( "Min Threshold:", window_name, &lowThreshold, max_lowThreshold, CannyThreshold );
     createTrackbar( "ratio:", window_name, &ratio, max_ratio, CannyThreshold );
     CannyThreshold(0, 0);
     
-    //--------------------------------¡¾ myCanny()º¯Êý ¡¿----------------------------------------------
-    //         ×Ô¼º±àÐ´µÄcannyËã×Ó
+    //--------------------------------ï¿½ï¿½ myCanny()ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½----------------------------------------------
+    //         ï¿½Ô¼ï¿½ï¿½ï¿½Ð´ï¿½ï¿½cannyï¿½ï¿½ï¿½ï¿½
     //--------------------------------------------------------------------------------------
     Mat dst_myCanny;
     dst_myCanny.create(src.size(), src.type());
     myCanny(src_gray, dst_myCanny, 13, 69, 3);
     
-    //namedWindow("dst_myCanny", WINDOW_AUTOSIZE);
-    //imshow("dst_myCanny", dst_myCanny);
+    namedWindow("dst_myCanny", WINDOW_AUTOSIZE);
+    imshow("dst_myCanny", dst_myCanny);
     
     waitKey(0);
     return 0;

@@ -8,6 +8,7 @@
  * Description             : (编译环境：OpenCV3.3.1 + Ubuntu16.04)
  *			
  * Reference               : https://docs.opencv.org/3.3.1/da/d5c/tutorial_canny_detector.html
+ *                              https://docs.opencv.org/3.3.1/dd/d1a/group__imgproc__feature.html#ga04723e007ed888ddf11d9ba04e2232de
  *				https://blog.csdn.net/dcrmg/article/details/52344902
  * Programmer(s)           : William Yu, windmillyucong@163.com
  * Company                 : HUST
